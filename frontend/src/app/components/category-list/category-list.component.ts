@@ -29,28 +29,56 @@ export class CategoryListComponent implements OnInit {
   ) {
   }
 
+  // ngOnInit() {
+  //   // Subscribe to router events to track video selection
+  //   this.router.events.pipe(
+  //     filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+  //   ).subscribe((event: NavigationEnd) => {
+  //     this.isVideoSelected = event.url.includes('/video/');
+  //   });
+
+  //   this.videoService.getCategories().subscribe((data) => {
+  //     this.categories = data;
+  //     this.isLoading = false; // Set loading to false when data is fetched
+  //   }, () => {
+  //     this.isLoading = false; // Ensure loading is false even on error
+  //   });
+
+  //   // Subscribe to categories observable
+  //   this.categoryService.categories$.subscribe((data) => {
+  //     this.categories = data;
+  //   });
+
+  //   // Load initial categories
+  //   this.categoryService.refreshCategories(this.videoService);
+  // }
+
   ngOnInit() {
-    // Subscribe to router events to track video selection
+    // Track video selection based on the URL
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
       this.isVideoSelected = event.url.includes('/video/');
     });
 
-    this.videoService.getCategories().subscribe((data) => {
-      this.categories = data;
-      this.isLoading = false; // Set loading to false when data is fetched
-    }, () => {
-      this.isLoading = false; // Ensure loading is false even on error
-    });
+    // Fetch initial categories
+    this.loadCategories();
 
-    // Subscribe to categories observable
+    // Listen for category updates in CategoryService
     this.categoryService.categories$.subscribe((data) => {
       this.categories = data;
     });
 
-    // Load initial categories
+    // Listen for video additions and refresh categories when a new video is added
+    this.videoService.getVideoAddedObservable().subscribe(() => {
+      this.loadCategories();
+    });
+  }
+
+  loadCategories() {
+    this.isLoading = true;
     this.categoryService.refreshCategories(this.videoService);
+    this.isLoading = false;
   }
 
   filteredCategories() {
