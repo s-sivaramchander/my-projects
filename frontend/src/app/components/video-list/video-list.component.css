@@ -1,0 +1,137 @@
+.input-container {
+    width: 100%;
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+mat-form-field {
+    width: 550px;
+}
+
+
+.video-layout {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.video-list-container {
+    width: 100%;
+    /* overflow-y: auto; */
+    padding: 70px 20px 20px 20px;
+    background-color: #f9f9f9;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.video-list-container-collapsed {
+    width: 250px;
+    /* overflow-y: auto; */
+    padding: 70px 20px 20px 20px;
+    background-color: #f9f9f9;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.video-list-container p {
+    color: #000;
+    font-size: x-large;
+}
+
+/* .videos-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    max-height: calc(85vh - 70px);
+    overflow-y: auto;
+    padding-right: 15px; 
+    box-sizing: content-box; 
+} */
+
+.videos-grid {
+    display: flex; /* Use Flexbox layout */
+    flex-wrap: wrap; /* Allow items to wrap onto the next line */
+    gap: 20px; /* Space between items */
+    max-height: calc(85vh - 70px); /* Maintain max height */
+    overflow-y: auto; /* Enable vertical scrolling if necessary */
+    width: 100%;
+    justify-content: center;
+    padding: 10px 0px;
+}
+
+.videos-grid::-webkit-scrollbar {
+    width: 6px; /* Width of the scrollbar */
+    height: 6px;
+}
+
+.videos-grid::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Background of the scrollbar track */
+}
+
+.videos-grid::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #add8e6, #87cefa); /* Light blue gradient */
+    border-radius: 10px; /* Rounded corners */
+}
+
+.videos-grid::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #87cefa, #4682b4); /* Darker blue on hover */
+}
+
+.video-card {
+    border: 1px solid #e1e1e1;
+    max-width: 250px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+}
+
+.video-card:hover {
+    transform: translateY(-5px);
+}
+
+.video-card img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+.video-card p {
+    padding: 0px 10px 10px 10px;
+    font-size: 16px;
+}
+
+.video-card p {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+.video-player-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    height: 100vh;
+    overflow: hidden;
+    padding: 70px 10px 70px 10px;
+}
+
+.no-data-box {
+    background-color: #f8d7da; /* Light red background */
+    border: 1px solid #f5c6cb; /* Border color matching background */
+    padding: 10px;
+    border-radius: 5px; /* Optional: for rounded corners */
+    text-align: center; /* Center text inside the box */
+    margin-bottom: 20px; /* Space below the message */
+    width: 65%;
+    height: 25px;
+}
+
+.no-data-box p {
+    font-weight: 500;
+    font-size: 16px;
+    color: #721c24 !important; /* Dark red text */
+}

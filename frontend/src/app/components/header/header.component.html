@@ -1,0 +1,29 @@
+<header class="header">
+    <div class="left">
+      <div class="logo">
+        <img (click)="onLogoClick()" src="/logo.png" alt="Angular Logo" />
+      </div>
+      <div class="title">
+        <span>Auxo Care Knowledge Base</span>
+      </div>
+    </div>
+    <div class="right">
+      <button 
+        mat-button 
+        [matMenuTriggerFor]="userMenu" 
+        class="user-button">
+        <span class="user-circle">
+            <mat-icon class="icon">settings</mat-icon>
+        </span>
+      </button>
+      <mat-menu #userMenu="matMenu" class="custom-menu" yPosition="below">
+        <div class="menu-arrow"></div>
+        <div class="menu-container">
+          <button mat-menu-item (click)="addVideo()">
+            <mat-icon>video_library</mat-icon>
+            <span>Add Video</span>
+          </button>
+        </div>
+      </mat-menu>
+    </div>
+  </header>

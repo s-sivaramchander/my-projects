@@ -1,0 +1,39 @@
+
+<div class="container">
+    <div class="video-layout">
+        <div [ngClass]="{ 'video-list-container': !isVideoSelected, 'video-list-container-collapsed': isVideoSelected }" >
+            <!-- <p>Videos in {{ categoryName }}</p>     -->
+            <div class="input-container">
+                <mat-form-field appearance="outline">
+                    <mat-label>Search Videos</mat-label>
+                    <input 
+                        matInput 
+                        type="text" 
+                        placeholder="Enter Video Title" 
+                        autocomplete="off" 
+                        [(ngModel)]="searchTerm" 
+                    >
+                </mat-form-field>
+            </div>
+            <div class="videos-grid" >    
+                <div *ngIf="isLoading" class="loading-box">
+                    <p>Loading...</p>
+                </div>        
+                <div *ngIf="!isLoading && filteredVideos().length === 0" class="no-data-box">
+                    <p>No Data Found.</p>
+                </div>
+                <div *ngFor="let video of filteredVideos()" 
+                    class="video-card" 
+                    (click)="onSelectVideo(video)">
+                    <img [src]="video.thumbnailUrl" alt="Video Thumbnail">
+                    <p>{{ video.title }}</p>
+                    <!-- <p>{{ video.description }}</p> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="video-player-container">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

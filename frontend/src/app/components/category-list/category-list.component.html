@@ -1,0 +1,58 @@
+<div class="container">
+    <div class="input-container">
+        <mat-form-field appearance="outline">
+        <mat-label>Search Categories</mat-label>
+        <input 
+            matInput 
+            type="text" 
+            placeholder="Enter Category" 
+            autocomplete="off" 
+            [(ngModel)]="searchTerm" 
+        >
+        </mat-form-field>
+    </div>
+    <div class="card-container">          
+        <div *ngIf="isLoading" class="loading-box">
+            <p>Loading...</p>
+        </div> 
+        <div *ngIf="!isLoading && filteredCategories().length === 0" class="no-data-box">
+            <p>No Data Found, Please contact your administrator.</p>
+        </div>
+        <div 
+            class="card"
+            *ngFor="let category of filteredCategories()"
+        >
+            <div class="card-header inverted-bottom-radius">
+                <mat-icon class="icon auto-resize-text">school</mat-icon>
+            </div>
+            <div class="card-content">
+                <p style="width: 100%; text-wrap: wrap;">{{ category }}</p>
+                <button 
+                    (click)="onSelectCategory(category)" 
+                    class="proceed-btn md-primary"
+                >
+                    Proceed
+                </button>
+            </div>
+        </div>
+        <!-- <div 
+        class="card"
+        *ngFor="let category of filteredCategories()"
+        >
+        <div class="card-header inverted-bottom-radius">
+            <mat-icon class="icon auto-resize-text">school</mat-icon>
+        </div>
+        <div class="card-content">
+            <p style="width: 100%; text-wrap: wrap;">{{ category.name }}</p>
+            <p style="width: 100%; text-wrap: wrap;">{{ category }}</p>
+            <button 
+            (click)="onSelectCategory(category)" 
+            class="proceed-btn md-primary"
+            >
+            Proceed
+            </button>
+        </div>
+        </div> -->
+    </div>
+</div>
+  

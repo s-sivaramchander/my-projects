@@ -1,0 +1,16 @@
+<div class="video-player-container" *ngIf="video && safeVideoUrl">
+    <div class="video-player-wrapper">
+        <iframe 
+            class="video-player"
+            [src]="safeVideoUrl" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+        ></iframe>
+    </div>
+    <div class="video-info">
+        <p class="title">{{ video.title }}</p>
+        <p class="duration">Duration: {{ video.duration }}</p>
+        <!-- <p class="description">{{ video.description }}</p> -->
+    </div>
+</div>
