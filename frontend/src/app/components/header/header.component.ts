@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AddVideoModalComponent } from '../add-video-modal/add-video-modal.component';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 
 @Component({
@@ -36,17 +37,15 @@ export class HeaderComponent {
   }
 
   addVideo() {
-    this.openVideoModal();
-
     const username = prompt('Enter username:');
     const password = prompt('Enter password:');
-
-    if (username === 'admin' && password === 'QXV4b0NhcmUK') {
+  
+    if (username === environment.adminUsername && password === environment.adminPassword) {
       this.openVideoModal();
     } else {
       alert('Invalid credentials!');
     }
-  }
+  }  
 
   openVideoModal() {
     const dialogRef = this.dialog.open(AddVideoModalComponent, {

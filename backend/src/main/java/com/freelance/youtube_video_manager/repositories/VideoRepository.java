@@ -11,5 +11,5 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
     @Query(value = "SELECT DISTINCT category FROM videos", nativeQuery = true)
     List<String> findAllDistinctCategories();
     List<Video> findByCategory(String category);
-    Optional<Video> findByVideoIdAndCategory(String videoId, String category);
+    Optional<Video> findFirstByVideoIdAndCategory(String videoId, String category);
 }
