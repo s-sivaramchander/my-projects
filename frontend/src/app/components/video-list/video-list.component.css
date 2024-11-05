@@ -39,22 +39,12 @@ mat-form-field {
     font-size: x-large;
 }
 
-/* .videos-grid {
-    display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    max-height: calc(85vh - 70px);
-    overflow-y: auto;
-    padding-right: 15px; 
-    box-sizing: content-box; 
-} */
-
 .videos-grid {
-    display: flex; /* Use Flexbox layout */
-    flex-wrap: wrap; /* Allow items to wrap onto the next line */
-    gap: 20px; /* Space between items */
-    max-height: calc(85vh - 70px); /* Maintain max height */
-    overflow-y: auto; /* Enable vertical scrolling if necessary */
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 20px; 
+    max-height: calc(85vh - 70px); 
+    overflow-y: auto; 
     width: 100%;
     justify-content: center;
     padding: 10px 0px;
@@ -80,17 +70,27 @@ mat-form-field {
 
 .video-card {
     border: 1px solid #e1e1e1;
-    max-width: 250px;
+    width: 350px;
     cursor: pointer;
     transition: transform 0.2s;
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
 }
 
 .video-card:hover {
-    transform: translateY(-5px);
+    /* transform: translateY(-5px); */
 }
+
+
+.video-card-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Take full height of the card */
+}
+
 
 .video-card img {
     width: 100%;
@@ -98,15 +98,42 @@ mat-form-field {
     object-fit: cover;
 }
 
-.video-card p {
-    padding: 0px 10px 10px 10px;
-    font-size: 16px;
-}
 
 .video-card p {
     font-size: 14px;
     color: #666;
     margin: 0;
+    flex-grow: 1;
+}
+
+.video-card-desc {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; /* Ensures the action buttons stay at the bottom */
+    flex-grow: 1;
+    padding: 5px;
+    align-items: center;
+}
+
+.video-card-desc-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 40px; /* Adjust as needed */
+    padding-bottom: 10px;
+}
+
+.video-card-desc-title p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+.action-icon {
+    color: black; 
+    font-weight: bold; 
+    font-size: 18px;
 }
 
 .video-player-container {
@@ -134,4 +161,95 @@ mat-form-field {
     font-weight: 500;
     font-size: 16px;
     color: #721c24 !important; /* Dark red text */
+}
+
+
+.mat-menu-item {
+    display: flex;
+    align-items: center;
+}
+
+.mat-menu-item mat-icon {
+    margin-right: 8px; /* Space between icon and text */
+}
+
+.video-player-container-hidden {
+    display: none;
+}
+
+
+
+@media (max-width: 576px) {
+
+
+    .input-container {
+        position: static;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .video-list-container {
+        width: 92%;
+        background-color: #f9f9f9;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        padding-top: 0px !important;
+    }
+
+    .video-card img {
+        width: 40%;
+        aspect-ratio: 16/9;
+        object-fit: cover;
+    }
+
+    .videos-grid {
+        gap: 0;
+    }
+
+    .video-list-container-collapsed {
+        padding-top: 10px !important;
+        padding-bottom: 120px !important;
+        height: fit-content;
+        width: 92%;
+        overflow-y: auto;
+        background-color: #f9f9f9;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .video-card {
+        border: 1px solid #e1e1e1;
+        width: 100%;
+        cursor: pointer;
+        transition: transform 0.2s;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 5px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .video-layout {
+        display: flex;
+        flex-direction: column-reverse;
+        padding-top: 0px;
+        overflow: hidden;
+        position: fixed;
+        justify-content: start;
+        align-items: center;
+        width: 100%;
+    }
+
+    .video-card-content {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .video-player-container {
+        position: static;
+        height: 350px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }

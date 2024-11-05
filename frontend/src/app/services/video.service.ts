@@ -19,7 +19,7 @@ export interface Video {
 })
 export class VideoService {
     private apiUrl = environment.apiUrl;
-    private videoAddedSubject = new Subject<void>(); // Subject to notify when a video is added
+    private videoActionSubject = new Subject<void>(); // Subject to notify when a video is added
 
     constructor(private http: HttpClient) {}
 
@@ -46,18 +46,43 @@ export class VideoService {
 
     // Observable to be subscribed to
     getVideoAddedObservable(): Observable<void> {
-        return this.videoAddedSubject.asObservable();
+        return this.videoActionSubject.asObservable();
     }
     
     saveVideoByCategoryAndLink(category: string, url: string): Observable<any> {
         const requestBody = { url, category };
         return this.http.post<any>(`${this.apiUrl}/videos`, requestBody).pipe(
         tap(() => {
-            this.videoAddedSubject.next(); // Emit the event when a video is added
+            this.videoActionSubject.next(); // Emit the event when a video is added
         }),
         catchError((error) => {
             console.error('Error saving video:', error);
-            throw 'Failed to save video; please try again later.';
+            throw error//'Failed to save video; please try again later.';
+        })
+        );
+    }
+
+    updateVideoByIdCategoryAndLink(id: string, category: string, url: string): Observable<any> {
+        const requestBody = { url, category };
+        return this.http.put<any>(`${this.apiUrl}/videos/${id}`, requestBody).pipe(
+        tap(() => {
+            this.videoActionSubject.next(); // Emit the event when a video is added
+        }),
+        catchError((error) => {
+            console.error('Error updating video:', error);
+            throw 'Failed to update video; please try again later.';
+        })
+        );
+    }
+
+    deleteVideoById(id: string): Observable<any> {
+        return this.http.delete<any>(`${this.apiUrl}/videos/${id}`).pipe(
+        tap(() => {
+            this.videoActionSubject.next(); // Emit the event when a video is added
+        }),
+        catchError((error) => {
+            console.error('Error deleting video:', error);
+            throw 'Failed to delete video; please try again later.';
         })
         );
     }

@@ -22,17 +22,42 @@
                 <div *ngIf="!isLoading && filteredVideos().length === 0" class="no-data-box">
                     <p>No Data Found.</p>
                 </div>
-                <div *ngFor="let video of filteredVideos()" 
-                    class="video-card" 
-                    (click)="onSelectVideo(video)">
-                    <img [src]="video.thumbnailUrl" alt="Video Thumbnail">
-                    <p>{{ video.title }}</p>
+                <div *ngFor="let video of filteredVideos()" class="video-card" >
+                    <!-- (click)="onSelectVideo(video)" -->
+                    
+                    <div class="video-card-content">
+                        <img (click)="onSelectVideo(video)" [src]="video.thumbnailUrl" alt="Video Thumbnail">
+                        <div class="video-card-desc">
+                            <!-- <div class="video-card-desc-title">
+                                <p>{{ video.title }}</p>
+                            </div> -->
+                            <div class="video-card-desc-title" matTooltip="{{ video.title }}" matTooltipPosition="below" matTooltipTouchGestures="on">
+                                <p>{{ video.title }}</p>
+                            </div>   
+                            
+                            <div class="video-card-desc-actions">
+                                <p style="color: grey; font-weight: bold; font-size: 18px;" [matMenuTriggerFor]="menu">⋮</p>
+                                <mat-menu #menu="matMenu">
+                                    <button mat-menu-item (click)="editVideo(video)">
+                                        <mat-icon>edit</mat-icon>
+                                        <span>Edit</span>
+                                    </button>
+                                    <button mat-menu-item (click)="deleteVideo(video)">
+                                        <mat-icon>delete</mat-icon>
+                                        <span>Delete</span>
+                                    </button>
+                                </mat-menu>
+                            </div>
+                        </div>
+                    </div>
                     <!-- <p>{{ video.description }}</p> -->
                 </div>
             </div>
         </div>
 
-        <div class="video-player-container">
+        <div 
+            [ngClass]="{ 'video-player-container-hidden': !isVideoSelected, 'video-player-container': isVideoSelected }"
+        >
             <router-outlet></router-outlet>
         </div>
     </div>

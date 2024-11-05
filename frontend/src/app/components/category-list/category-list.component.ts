@@ -29,30 +29,6 @@ export class CategoryListComponent implements OnInit {
   ) {
   }
 
-  // ngOnInit() {
-  //   // Subscribe to router events to track video selection
-  //   this.router.events.pipe(
-  //     filter((event): event is NavigationEnd => event instanceof NavigationEnd)
-  //   ).subscribe((event: NavigationEnd) => {
-  //     this.isVideoSelected = event.url.includes('/video/');
-  //   });
-
-  //   this.videoService.getCategories().subscribe((data) => {
-  //     this.categories = data;
-  //     this.isLoading = false; // Set loading to false when data is fetched
-  //   }, () => {
-  //     this.isLoading = false; // Ensure loading is false even on error
-  //   });
-
-  //   // Subscribe to categories observable
-  //   this.categoryService.categories$.subscribe((data) => {
-  //     this.categories = data;
-  //   });
-
-  //   // Load initial categories
-  //   this.categoryService.refreshCategories(this.videoService);
-  // }
-
   ngOnInit() {
     // Track video selection based on the URL
     this.router.events.pipe(

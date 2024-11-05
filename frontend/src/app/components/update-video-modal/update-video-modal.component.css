@@ -25,6 +25,7 @@ mat-dialog-actions {
     padding: 16px 0;
 }
 
+
 .snack-bar-success {
     background-color: #4CAF50; /* Green */
     color: white;
@@ -34,25 +35,3 @@ mat-dialog-actions {
     background-color: #F44336; /* Red */
     color: white;
 }
-
-mat-option {
-    background-color: white;
-}
-/* 
-.menu {
-    position: relative;
-    z-index: 1000;
-}
-
-
-.menu-item {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    cursor: pointer;
-}
-
-
-.menu-item:hover {
-    background-color: lightgray;
-} */

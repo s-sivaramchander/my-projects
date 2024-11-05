@@ -1,7 +1,6 @@
 .container {
     width: 100vw;
     height: 100vh;
-    /* padding-top: 100px; */
     overflow: auto;
     display: flex;
     flex-direction: column;
@@ -25,7 +24,7 @@ h2 {
     padding: 0;
     margin: 0;
     width: 65%;
-    min-width: 1000px;
+    width: 1000px;
     height: 650px;
     overflow-y: auto;
     list-style-type: none;
@@ -43,7 +42,6 @@ h2 {
     color: #333;
     font-size: 1.2rem;
     text-align: center;
-    /* box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); */
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     border-radius: 10px;
@@ -135,6 +133,7 @@ h2 {
 
 .input-container {
     width: 550px;
+    position: static;
 }
 
 mat-form-field {
@@ -152,4 +151,64 @@ mat-form-field {
     width: 100%;
     height: 25px;
     font-weight: 500;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) { /* Tablet */
+    .card-container {
+        width: 90%; /* Reduce width for tablets */
+        height: auto; /* Allow height to adjust */
+    }
+
+    .card {
+        width: calc(30% - 20px); /* Adjust card width */
+        min-height: 150px; /* Adjust min height */
+    }
+}
+
+@media (max-width: 768px) { /* Mobile */
+    .card-container {
+        width: 100% !important; /* Full width on mobile */
+        height: auto; /* Allow height to adjust */
+        padding: 10px; /* Add padding */
+    }
+
+    .card {
+        width: calc(45% - 20px); /* Adjust card width for mobile */
+        min-height: 120px; /* Adjust min height */
+        max-height: 200px; /* Adjust max height */
+    }
+
+    .input-container {
+        width: 100%; /* Full width for inputs */
+    }
+
+    h2 {
+        font-size: 1.5rem; /* Adjust heading size for mobile */
+    }
+}
+
+@media (max-width: 480px) { /* Smaller mobile screens */
+    
+    .container {
+        justify-content: start;
+    }
+
+    .input-container {
+        padding-top: 10px;
+        width: calc(90% - 20px);
+    }
+
+    .card-container {
+        display: flex;
+    }
+
+    .card {
+        width: calc(90% - 20px); /* Adjust card width further */
+    }
+
+    .proceed-btn {
+        padding: 10px; /* Increase button padding */
+        font-size: 16px; /* Adjust font size */
+    }
 }

@@ -12,4 +12,5 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
     List<String> findAllDistinctCategories();
     List<Video> findByCategory(String category);
     Optional<Video> findFirstByVideoIdAndCategory(String videoId, String category);
+    Optional<Video> findFirstById(Long id);
 }

@@ -8,11 +8,20 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { AddVideoModalComponent } from '../add-video-modal/add-video-modal.component';
+import { UpdateVideoModalComponent } from '../update-video-modal/update-video-modal.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-video-list',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, VideoPlayerComponent, MatFormFieldModule, MatIconModule, MatInputModule, FormsModule],
+  imports: [CommonModule, RouterOutlet, RouterLink, VideoPlayerComponent, MatFormFieldModule, MatIconModule, MatInputModule, FormsModule, MatButtonModule, MatTooltipModule, MatMenuModule],
   templateUrl: './video-list.component.html',
   styleUrls: ['./video-list.component.css'],
 })
@@ -26,7 +35,9 @@ export class VideoListComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private videoService: VideoService
+    private videoService: VideoService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
   
   ngOnInit() {
@@ -69,5 +80,62 @@ export class VideoListComponent implements OnInit {
   onSelectVideo(video: any) {
     this.router.navigate(['video', video.videoId], { relativeTo: this.route });
   }
+
+  deleteVideo(video: any): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Confirm Action',
+        message: 'Are you sure you want to delete this video?',
+      },
+    });
+  
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('User confirmed the action');
+        this.videoService.deleteVideoById(video.id).subscribe({
+          next: () => {
+            this.snackBar.open(`Video Deleted Successfully!\n\nTitle: ${video.title}`, 'Close', {
+              duration: 3000,
+              panelClass: ['snack-bar-success']
+            });
+            // Add any additional logic here, such as refreshing the list of videos
+          },
+          error: (error) => {
+            this.snackBar.open('Error deleting video. Please try again.', 'Close', {
+              duration: 3000,
+              panelClass: ['snack-bar-error']
+            });
+            console.error('Error deleting video:', error);
+          },
+        });
+      } else {
+        console.log('User cancelled the action');
+        // Add any cancellation logic here if needed
+      }
+    });
+  }
+  
+  
+
+  editVideo(video: any) {
+    console.log('Edit video clicked');
+    this.openUpdateVideoModal(video)
+    
+  }
+
+  openUpdateVideoModal(videoData: any) {
+    const dialogRef = this.dialog.open(UpdateVideoModalComponent, {
+      width: '400px',
+      data: videoData 
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Video updated:', result);
+      }
+    });
+  }
+
 }
 

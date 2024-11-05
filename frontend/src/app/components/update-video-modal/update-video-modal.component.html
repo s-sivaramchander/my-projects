@@ -1,6 +1,6 @@
 <div class="modal-container">
     <div class="modal-header">
-        <h6 mat-dialog-title>Add Video</h6>
+        <h6 mat-dialog-title>Update Vieo</h6>
         <button mat-icon-button (click)="onClose()" class="close-button">
         <mat-icon>close</mat-icon>
         </button>
@@ -25,6 +25,7 @@
                   </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
+
             <mat-form-field appearance="outline" class="full-width">
             <mat-label>Link</mat-label>
             <input autocomplete="off" matInput [(ngModel)]="videoData.link" name="link" (ngModelChange)="extractVideoId()" required>
@@ -38,4 +39,4 @@
             OK
         </button>
     </mat-dialog-actions>
-</div> 
+</div>

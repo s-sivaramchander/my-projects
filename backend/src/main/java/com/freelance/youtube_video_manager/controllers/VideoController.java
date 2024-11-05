@@ -174,8 +174,10 @@
 
 package com.freelance.youtube_video_manager.controllers;
 
+import com.freelance.youtube_video_manager.exceptions.VideoAlreadyExistsException;
 import com.freelance.youtube_video_manager.models.db.Video;
 import com.freelance.youtube_video_manager.models.request.AddVideo;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.freelance.youtube_video_manager.services.VideoService;
@@ -198,6 +200,33 @@ public class VideoController {
         this.videoService = videoService;
     }
 
+//    @PostMapping("/videos")
+//    public ResponseEntity<?> addVideo(@RequestBody AddVideo request) {
+//        try {
+//            logger.info("Received request to add video - URL: {}, Category: {}",
+//                    request.getUrl(), request.getCategory());
+//
+//            if (request.getUrl() == null || request.getUrl().trim().isEmpty()) {
+//                logger.warn("Invalid request: URL is empty or null");
+//                return ResponseEntity.badRequest().body(Map.of("error", "URL is required"));
+//            }
+//
+//            if (request.getCategory() == null || request.getCategory().trim().isEmpty()) {
+//                logger.warn("Invalid request: Category is empty or null");
+//                return ResponseEntity.badRequest().body(Map.of("error", "Category is required"));
+//            }
+//
+//            Video video = videoService.addVideo(request.getUrl(), request.getCategory());
+//            logger.info("Successfully added video with ID: {}", video.getId());
+//            return ResponseEntity.ok(video);
+//
+//        } catch (Exception e) {
+//            logger.error("Error while adding video", e);
+//            return ResponseEntity.badRequest()
+//                    .body(Map.of("error", "Error processing request: " + e.getMessage()));
+//        }
+//    }
+
     @PostMapping("/videos")
     public ResponseEntity<?> addVideo(@RequestBody AddVideo request) {
         try {
@@ -218,12 +247,44 @@ public class VideoController {
             logger.info("Successfully added video with ID: {}", video.getId());
             return ResponseEntity.ok(video);
 
+        } catch (VideoAlreadyExistsException e) {
+            logger.warn("Attempted to add duplicate video - URL: {}, Category: {}", request.getUrl(), request.getCategory());
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
             logger.error("Error while adding video", e);
-            return ResponseEntity.badRequest()
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "Error processing request: " + e.getMessage()));
         }
     }
+
+    @PutMapping("/videos/{id}")
+    public ResponseEntity<Video> updateVideo(
+            @PathVariable Long id,
+            @RequestBody AddVideo request) {
+        try {
+            Video updated = videoService.updateVideo(id, request);
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); // Return 404 if video not found
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // Return 500 for other errors
+        }
+    }
+
+    @DeleteMapping("/videos/{id}")
+    public ResponseEntity<Void> deleteVideo(@PathVariable Long id) {
+        try {
+            videoService.deleteVideoById(id);
+            return ResponseEntity.noContent().build(); // Return 204 No Content on successful deletion
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // Return 404 if video not found
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Return 500 for other errors
+        }
+    }
+
+
 
     @GetMapping("/videos")
     public ResponseEntity<List<Video>> getAllVideos() {

@@ -37,13 +37,17 @@ export class HeaderComponent {
   }
 
   addVideo() {
-    const username = prompt('Enter username:');
-    const password = prompt('Enter password:');
-  
-    if (username === environment.adminUsername && password === environment.adminPassword) {
-      this.openVideoModal();
+    if(environment.addVideoAuthentication) {
+      const username = prompt('Enter username:');
+      const password = prompt('Enter password:');
+    
+      if (username === environment.adminUsername && password === environment.adminPassword) {
+        this.openVideoModal();
+      } else {
+        alert('Invalid credentials!');
+      }
     } else {
-      alert('Invalid credentials!');
+      this.openVideoModal();
     }
   }  
 

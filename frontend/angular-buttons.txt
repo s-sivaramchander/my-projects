@@ -1,0 +1,31 @@
+<button mat-button>Basic Button</button>
+
+<button mat-raised-button color="primary">Primary Raised Button</button>
+
+<button mat-stroked-button color="accent">Accent Stroked Button</button>
+
+<button mat-flat-button color="warn">Warn Flat Button</button>
+
+<button mat-icon-button aria-label="Example icon button">
+  <mat-icon>favorite</mat-icon>
+</button>
+
+<button mat-fab color="primary" aria-label="Example icon button">
+  <mat-icon>add</mat-icon>
+</button>
+
+<button mat-mini-fab color="accent" aria-label="Example icon button">
+  <mat-icon>edit</mat-icon>
+</button>
+
+
+
+
+<button mat-raised-button color="primary">Primary Button</button>
+<button mat-raised-button color="accent">Accent Button</button>
+<button mat-raised-button color="warn">Warn Button</button>
+
+
+<button mat-icon-button aria-label="Example icon button">
+  <mat-icon>favorite</mat-icon>
+</button>

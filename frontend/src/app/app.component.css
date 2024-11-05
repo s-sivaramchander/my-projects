@@ -3,9 +3,62 @@
 }
 
 .main-content {
-    /* margin-left: 10px; */
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    float: right;
+    padding-top: 0px; /* Default padding for larger screens */
 }
+
+/* Media queries for smooth transitions */
+@media (max-width: 1200px) {
+    .main-content {
+        padding-top: 20px; /* Increased padding for large screens */
+    }
+}
+
+@media (max-width: 1100px) {
+    .main-content {
+        padding-top: 10px; /* Further increased padding */
+    }
+}
+
+@media (max-width: 1000px) {
+    .main-content {
+        padding-top: 60px; /* Further increased padding */
+    }
+}
+
+@media (max-width: 900px) {
+    .main-content {
+        padding-top: 20px; /* Further increased padding */
+    }
+}
+
+@media (max-width: 800px) {
+    .main-content {
+        padding-top: 20px; /* Further increased padding */
+    }
+}
+
+@media (max-width: 700px) {
+    .main-content {
+        padding-top: 90px; /* Further increased padding */
+    }
+}
+
+@media (max-width: 600px) {
+    .main-content {
+        padding-top: 90px; /* Further increased padding */
+    }
+}
+
+@media (max-width: 500px) {
+    .main-content {
+        padding-top: 90px; /* Further increased padding for medium screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding-top: 80px; /* Further increased padding for small screens */
+    }
+}
+
+/* Additional media queries can be added as needed */

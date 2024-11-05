@@ -1,21 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { VideoService } from '../../services/video.service';
 import { CategoryService } from '../../services/category.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatSelectModule } from '@angular/material/select'; // Import MatSelectModule
-import { MatOptionModule } from '@angular/material/core'; // Import MatOptionModule
-import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms'; // Required for reactive forms
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-video-modal',
+  selector: 'app-update-video-modal',
   standalone: true,
   imports: [
     MatDialogModule,
@@ -24,32 +22,42 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatInputModule,
     FormsModule,
     MatIconModule,
-    MatSelectModule,
-    MatOptionModule,
-    CommonModule,
     ReactiveFormsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    CommonModule
   ],
-  templateUrl: './add-video-modal.component.html',
-  styleUrls: ['./add-video-modal.component.css']
+  templateUrl: './update-video-modal.component.html',
+  styleUrls: ['./update-video-modal.component.css']
 })
-
-export class AddVideoModalComponent {
+export class UpdateVideoModalComponent {
 
   categories: any[] = []
-  filteredCategories: any[] =[]
+  filteredCategories: any[] = []
 
   videoData = {
+    id: '',
     category: '',
     link: '',
     videoId: ''
   };
 
-  constructor(private dialog: MatDialog, private videoService: VideoService, private categoryService: CategoryService, private snackBar: MatSnackBar) {
+  constructor(
+    private dialogRef: MatDialogRef<UpdateVideoModalComponent>,
+    private videoService: VideoService,
+    private categoryService: CategoryService,
+    private snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    // Initialize videoData with data passed from the parent component
+    if (data) {
+      this.videoData = { ...data };
+      this.videoData.link = `https://www.youtube.com/watch?v=${data.videoId}`;
+    }
     this.videoService.getCategories().subscribe((data) => {
       this.categories = data;
-    });  
-    this.filteredCategories = this.categories;
+    }); 
+    this.filteredCategories = this.categories
+    console.table(this.categories)
   }
 
   filterCategories(value: string) {
@@ -60,28 +68,29 @@ export class AddVideoModalComponent {
   }
 
   onClose() {
-    this.dialog.closeAll();
+    this.dialogRef.close();
   }
 
   onSubmit() {
     if (this.videoData.category && this.videoData.link) {
-      this.videoService.saveVideoByCategoryAndLink(this.videoData.category, this.videoData.link).subscribe({
+      this.extractVideoId();
+      this.videoService.updateVideoByIdCategoryAndLink(this.videoData.id, this.videoData.category, this.videoData.link).subscribe({
         next: (response) => {
-          this.snackBar.open(`Video Saved Successfully!\n\nDetails:-\nTitle: ${response?.title}\nCategory: ${response?.category}`, 'Close', {
-            duration: 3000, // Duration in milliseconds
-            panelClass: ['snack-bar-success'] // Optional: custom class for styling
+          this.snackBar.open(`Video Saved Successfully!\n\nDetails:\nTitle: ${response?.title}\nCategory: ${response?.category}`, 'Close', {
+            duration: 3000, 
+            panelClass: ['snack-bar-success']
           });
-          this.dialog.closeAll();
+          this.dialogRef.close(response);
         },
         error: (error) => {
-          this.snackBar.open(`Error saving video. ${error?.error?.error}. Please try again.`, 'Close', {
+          this.snackBar.open('Error saving video. Please try again.', 'Close', {
             duration: 3000,
             panelClass: ['snack-bar-error']
           });
           console.error('Error saving video:', error);
         }
-      })
-      this.categoryService.refreshCategories(this.videoService); // Refresh categories after adding a video
+      });
+      this.categoryService.refreshCategories(this.videoService);
     } else {
       alert('Please provide both category and link.');
     }
@@ -99,4 +108,3 @@ export class AddVideoModalComponent {
     }
   }
 }
-
