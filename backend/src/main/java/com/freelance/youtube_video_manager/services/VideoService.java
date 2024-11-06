@@ -141,6 +141,7 @@ public class VideoService {
         Video updatedVideoDetails = fetchVideoDetailsByVideoId(videoId);
 
         // Update fields with details from the YouTube API response
+        existingVideo.setCategory(request.getCategory());
         existingVideo.setTitle(updatedVideoDetails.getTitle());
         existingVideo.setDescription(updatedVideoDetails.getDescription());
         existingVideo.setThumbnailUrl(updatedVideoDetails.getThumbnailUrl());
