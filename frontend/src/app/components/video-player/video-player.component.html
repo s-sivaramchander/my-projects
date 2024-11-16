@@ -1,4 +1,4 @@
-<div class="video-player-container" *ngIf="video && safeVideoUrl">
+<div class="video-player-container" *ngIf="video && safeVideoUrl; else noVideo">
     <div class="video-player-wrapper">
         <iframe 
             class="video-player"
@@ -14,3 +14,9 @@
         <!-- <p class="description">{{ video.description }}</p> -->
     </div>
 </div>
+
+<ng-template #noVideo>
+    <div class="no-video-container">
+        <p class="no-video-message">No video selected. Please select a video to play.</p>
+    </div>
+</ng-template>

@@ -92,14 +92,20 @@ export class VideoListComponent implements OnInit {
   
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log('User confirmed the action');
         this.videoService.deleteVideoById(video.id).subscribe({
           next: () => {
             this.snackBar.open(`Video Deleted Successfully!\n\nTitle: ${video.title}`, 'Close', {
               duration: 3000,
               panelClass: ['snack-bar-success']
             });
-            // Add any additional logic here, such as refreshing the list of videos
+  
+            // Clear the selected video if it's the deleted one
+            if (this.isVideoSelected && this.router.url.includes(`/video/${video.videoId}`)) {
+              this.clearSelectedVideo();
+            }
+  
+            // Refresh the list of videos
+            this.loadVideos();
           },
           error: (error) => {
             this.snackBar.open('Error deleting video. Please try again.', 'Close', {
@@ -111,30 +117,40 @@ export class VideoListComponent implements OnInit {
         });
       } else {
         console.log('User cancelled the action');
-        // Add any cancellation logic here if needed
       }
     });
   }
   
   
-
   editVideo(video: any) {
     console.log('Edit video clicked');
-    this.openUpdateVideoModal(video)
-    
+    this.openUpdateVideoModal(video);
   }
 
   openUpdateVideoModal(videoData: any) {
     const dialogRef = this.dialog.open(UpdateVideoModalComponent, {
       width: '400px',
-      data: videoData 
+      data: videoData
     });
   
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log('Video updated:', result);
+  
+        // Clear the selected video if it's the edited one
+        if (this.isVideoSelected && this.router.url.includes(`/video/${videoData.videoId}`)) {
+          this.clearSelectedVideo();
+        }
+  
+        // Refresh the list of videos
+        this.loadVideos();
       }
     });
+  }
+  
+
+  clearSelectedVideo() {
+    this.isVideoSelected = false;
   }
 
 }
